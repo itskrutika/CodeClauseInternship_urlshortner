@@ -1,0 +1,30 @@
+import string
+import random
+url_mapping = {}
+def codes(length=8):
+    characters = string.ascii_letters + string.digits
+    short_code = ''.join(random.choice(characters) for _ in range(length))
+    return short_code
+
+def short_url(long_url):
+    if long_url in url_mapping.values():
+        for code, url in url_mapping.items():
+            if url == long_url:
+                return code
+    
+    short_code = codes()
+    while short_code in url_mapping:
+        short_code = codes()
+    
+    url_mapping[short_code] = long_url
+    return short_code
+def get_original_url(short_code):
+    return url_mapping.get(short_code, None)
+
+# Example usage
+long_url = input("enter ur long url by ur side")
+short_code = short_url(long_url)
+print("Shortened URL:", short_code)
+
+original_url = get_original_url(short_code)
+print("Original URL:", original_url)
